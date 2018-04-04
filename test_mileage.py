@@ -47,7 +47,16 @@ class TestMileageDB(TestCase):
 			
 		conn.close()
 		
+	def test_search_for_vehicle(self, expected): 
+		conn = sqlite3.connect(self.test_db_url)
+		mileage.add_miles('Red Car', 100) #adds miles to red car
+		mileage.add_miles('Blue Car', 50) #adds miles to blue car
+		mileage.add_miles('Green Car', 23) #adds miles to green car
 		
+		carResult = mileage.search_vehicle('gReEn CaR') #searches for green car
+		expected[carResult] = 23 #expected
+		self.compare_db_to_expected(expected) #compare
+		 
 	def test_vehicle_name(self):
 	
 	mileage.add_miles('Blue Car', 100) #adds 100 to blue car
